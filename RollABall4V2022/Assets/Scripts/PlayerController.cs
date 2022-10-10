@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public float initialTime;
+    
     public int coins = 0;
 
     public float moveSpeed;
@@ -27,12 +27,9 @@ public class PlayerController : MonoBehaviour
 
     private bool _isGrounded;
 
-    private float _timeRemaining;
+    
 
-    private void Start()
-    {
-        _timeRemaining = initialTime;
-    }
+   
 
     private void OnEnable()
     {
@@ -144,7 +141,6 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        _timeRemaining -= Time.deltaTime;
         CheckGameOver();
         CheckGround();
     }
@@ -178,13 +174,6 @@ public class PlayerController : MonoBehaviour
 
     private void CheckGameOver()
     {
-        if (_timeRemaining <= 0)
-        {
-            if (GameManager.Instance.gameState != GameState.GameOver)
-            {
-                GameManager.Instance.CallGameOver();
-                //GameManager.Instance.LoadEnding();
-            } 
-        }
+        
     }
 }
