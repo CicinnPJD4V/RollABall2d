@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    
+    public int MaxHealth = 100;
     public int coins = 0;
 
     public float moveSpeed;
@@ -26,6 +26,9 @@ public class PlayerController : MonoBehaviour
     private Vector2 _moveInput;
 
     private bool _isGrounded;
+    
+
+    private int _currentHealth;
 
     
 
@@ -45,6 +48,7 @@ public class PlayerController : MonoBehaviour
 
         // atribuindo ao delegate do action triggered no player input
         _playerInput.onActionTriggered += OnActionTriggered;
+        _currentHealth = MaxHealth;
     }
 
     private void OnDisable()
@@ -66,6 +70,7 @@ public class PlayerController : MonoBehaviour
         {
             if(obj.performed) Jump();
         }
+        
     }
 
     private void Move()
@@ -141,7 +146,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        CheckGameOver();
+        
         CheckGround();
     }
 
@@ -159,6 +164,11 @@ public class PlayerController : MonoBehaviour
             CheckVictory();
             Destroy(other.gameObject);
         }
+
+        if (other.CompareTag("Finish"))
+        {
+            GameManager.Instance.PlayerReachedFinishDoor();
+        }
     }
 
     private void CheckVictory()
@@ -172,8 +182,29 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void CheckGameOver()
+    
+
+    public void TakeDamege(int damege)
     {
-        
+        _currentHealth -= damege;
+        if (_currentHealth <= 0)
+        {
+            _currentHealth = 0;
+        }
+    }
+
+    public void HealHealth(int heal)
+    {
+        _currentHealth += heal;
+
+        if (_currentHealth >= MaxHealth) _currentHealth = MaxHealth;
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Spike"))
+        {
+            TakeDamege(5);
+        }
     }
 }
