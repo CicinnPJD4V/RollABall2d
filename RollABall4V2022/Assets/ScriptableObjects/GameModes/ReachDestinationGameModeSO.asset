@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: ReachDestinationGameModeSO
   m_EditorClassIdentifier: 
   userTimer: 0
-  timeToLose: 0
+  timeToLose: 10

@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
 
     private bool _isGrounded;
     
-
+    [SerializeField]
     private int _currentHealth;
 
     
@@ -190,6 +190,7 @@ public class PlayerController : MonoBehaviour
         if (_currentHealth <= 0)
         {
             _currentHealth = 0;
+            
         }
     }
 
@@ -204,7 +205,16 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Spike"))
         {
-            TakeDamege(5);
+            TakeDamege(50);
+            CheckGameOver();
+        }
+    }
+
+    public void CheckGameOver()
+    {
+        if (_currentHealth == 0)
+        {
+            GameManager.Instance.CallGameOver();
         }
     }
 }
